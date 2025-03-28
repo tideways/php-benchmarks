@@ -1,0 +1,40 @@
+---
+- name: Install Sury's GPG key.
+  copy:
+    src: sury.gpg
+    dest: /usr/share/keyrings/deb.sury.org-php.gpg
+    owner: root
+    group: root
+    mode: 0644
+- name: Install Sury's repository
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ {{ ansible_distribution_release | lower }} main"
+    state: present
+    filename: php_sury
+- name: Install php{{ php_version }}
+  apt:
+    name:
+    - php{{ php_version }}-fpm
+    - php{{ php_version }}-cli
+    - php{{ php_version }}-curl
+    - php{{ php_version }}-dom
+    - php{{ php_version }}-mbstring
+    - php{{ php_version }}-mysql
+    - php{{ php_version }}-opcache
+    - php{{ php_version }}-pdo
+    - php{{ php_version }}-redis
+    - php{{ php_version }}-xml
+    state: present
+- name: Install pool config www.conf.
+  template:
+    src: www.conf
+    dest: "/etc/php/{{ php_version }}/fpm/pool.d/www.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+  - restart php
+- name: Start php{{ php_version }}-fpm
+  service:
+    name: php{{ php_version }}-fpm
+    state: started

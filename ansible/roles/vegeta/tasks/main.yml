@@ -1,0 +1,16 @@
+---
+- name: Download Vegeta.
+  ansible.builtin.get_url:
+    url: https://github.com/tsenart/vegeta/releases/download/v12.12.0/vegeta_12.12.0_linux_amd64.tar.gz
+    dest: /root/vegeta.tar.gz
+    checksum: sha256:e7ce26c8fa4b9e1a3668aa7f82a4d77fca6a6d955f8dd5e843816115cc568450
+- name: Unpack Vegeta.
+  ansible.builtin.unarchive:
+    src: /root/vegeta.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+    mode: "755"
+    owner: root
+    group: root
+    include:
+      - vegeta

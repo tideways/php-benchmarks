@@ -1,0 +1,17 @@
+---
+- hosts: all
+  remote_user: root
+  roles:
+    - haproxy
+    - vegeta
+  tasks:
+    - include_role:
+        name: php
+      loop_control:
+        loop_var: php_version
+      loop: "{{ php_versions }}"
+  vars:
+    php_versions:
+      - "8.2"
+      - "8.3"
+      - "8.4"

@@ -1,0 +1,10 @@
+---
+- name: restart haproxy
+  systemd:
+    name: haproxy
+    daemon_reload: yes
+    state: restarted
+- name: reload haproxy
+  service:
+    name: haproxy
+    state: reloaded

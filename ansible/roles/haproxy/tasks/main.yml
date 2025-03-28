@@ -1,0 +1,20 @@
+---
+- name: Install HAProxy.
+  apt:
+    name: haproxy
+    state: present
+- name: Install HAProxy config.
+  template:
+    src: "{{ item }}"
+    dest: "/etc/haproxy/"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+  - haproxy.cfg
+  notify:
+  - reload haproxy
+- name: Start HAProxy.
+  service:
+    name: haproxy
+    state: started
