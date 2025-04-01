@@ -1,0 +1,40 @@
+---
+- name: Install MySQL signing key.
+  copy:
+    src: mysql.asc
+    dest: /usr/share/keyrings/mysql.asc
+    owner: root
+    group: root
+    mode: 0644
+- name: Set-Up Oracle's APT repository for MySQL.
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/mysql.asc]  http://repo.mysql.com/apt/debian/ {{ ansible_distribution_release | lower }} mysql-8.4-lts"
+    state: present
+    filename: mysql
+- name: Install MySQL.
+  apt:
+    name: mysql-server
+    state: present
+- name: Install my.conf.
+  template:
+    src: "{{ item }}"
+    dest: "/etc/mysql/mysql.conf.d/"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - my.cnf
+  notify:
+    - restart mysql
+- name: Install PyMySQL for Ansible.
+  apt:
+    name:
+      - python3-pymysql
+    state: present
+- name: Create www-data MySQL user.
+  mysql_user:
+    name: www-data
+    host: "localhost"
+    plugin: auth_socket
+    login_user: root
+    login_unix_socket: /run/mysqld/mysqld.sock

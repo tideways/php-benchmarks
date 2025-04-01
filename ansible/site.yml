@@ -4,6 +4,7 @@
   roles:
     - haproxy
     - vegeta
+    - mysql
   tasks:
     - include_role:
         name: php
