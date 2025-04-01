@@ -14,17 +14,18 @@
 - name: Install php{{ php_version }}
   apt:
     name:
-    - php{{ php_version }}-fpm
-    - php{{ php_version }}-cli
-    - php{{ php_version }}-curl
-    - php{{ php_version }}-dom
-    - php{{ php_version }}-mbstring
-    - php{{ php_version }}-mysql
-    - php{{ php_version }}-opcache
-    - php{{ php_version }}-pdo
-    - php{{ php_version }}-redis
-    - php{{ php_version }}-xml
+      - php{{ php_version }}-fpm
+      - php{{ php_version }}-cli
+      - php{{ php_version }}-curl
+      - php{{ php_version }}-dom
+      - php{{ php_version }}-mbstring
+      - php{{ php_version }}-mysql
+      - php{{ php_version }}-opcache
+      - php{{ php_version }}-pdo
+      - php{{ php_version }}-redis
+      - php{{ php_version }}-xml
     state: present
+    update_cache: yes
 - name: Install pool config www.conf.
   template:
     src: www.conf
@@ -33,7 +34,7 @@
     group: root
     mode: 0644
   notify:
-  - restart php
+    - restart php
 - name: Start php{{ php_version }}-fpm
   service:
     name: php{{ php_version }}-fpm
