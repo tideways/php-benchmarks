@@ -1,10 +1,10 @@
 ---
-- name: restart php
+- name: restart php{{ php_version }}
   systemd:
     name: php{{ php_version }}-fpm
     daemon_reload: yes
     state: restarted
-- name: reload php
+- name: reload php{{ php_version }}
   service:
     name: php{{ php_version }}-fpm
     state: reloaded

@@ -34,7 +34,7 @@
     group: root
     mode: 0644
   notify:
-    - restart php
+    - restart php{{ php_version }}
 - name: Start php{{ php_version }}-fpm
   service:
     name: php{{ php_version }}-fpm
