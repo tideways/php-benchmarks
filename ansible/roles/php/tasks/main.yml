@@ -39,3 +39,10 @@
   service:
     name: php{{ php_version }}-fpm
     state: started
+- name: Create webroot
+  file:
+    path: /var/www/
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0755
