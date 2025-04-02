@@ -5,7 +5,7 @@
 - name: Use a proper SSHd configuration.
   template:
     src: sshd_config
-    dest: /etc/ssh/sshd_config
+    dest: /etc/ssh/sshd_config.d/custom.conf
     owner: root
     group: root
     mode: 0644
