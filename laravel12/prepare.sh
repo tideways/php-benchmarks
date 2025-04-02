@@ -3,6 +3,6 @@
 set -ex
 
 composer install
-mv .env.dist .env
+cp .env.dist .env
 php artisan migrate
 php artisan optimize
