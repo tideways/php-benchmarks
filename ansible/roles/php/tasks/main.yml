@@ -24,6 +24,7 @@
       - php{{ php_version }}-pdo
       - php{{ php_version }}-redis
       - php{{ php_version }}-xml
+      - php{{ php_version }}-zip
     state: present
     update_cache: yes
 - name: Install pool config www.conf.
@@ -35,6 +36,12 @@
     mode: 0644
   notify:
     - restart php{{ php_version }}
+- name: Install unzip for composer
+  apt:
+    name:
+      - unzip
+    state: present
+    update_cache: yes
 - name: Start php{{ php_version }}-fpm
   service:
     name: php{{ php_version }}-fpm
