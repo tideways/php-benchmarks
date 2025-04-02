@@ -36,9 +36,10 @@
     mode: 0644
   notify:
     - restart php{{ php_version }}
-- name: Install unzip for composer
+- name: Install composer
   apt:
     name:
+      - composer
       - unzip
     state: present
     update_cache: yes
