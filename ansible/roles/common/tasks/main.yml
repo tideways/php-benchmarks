@@ -1,0 +1,30 @@
+---
+- name: Use Etc/UTC as the time zone.
+  timezone:
+    name: Etc/UTC
+- name: Use a proper SSHd configuration.
+  template:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart ssh
+- name: Add SSH known hosts
+  template:
+    src: known_hosts
+    dest: /etc/ssh/ssh_known_hosts
+    owner: root
+    group: root
+    mode: 0644
+- name: Install generally required packages.
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - git
+      - htop
+      - strace
+      - tcpdump
