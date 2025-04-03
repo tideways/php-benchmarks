@@ -39,3 +39,10 @@
     plugin: auth_socket
     login_user: root
     login_unix_socket: /run/mysqld/mysqld.sock
+    priv: "{{ mysql_databases |product(['.*']) |map('join') |zip_longest([], fillvalue='ALL') |community.general.dict }}"
+- name: Create databases
+  mysql_db:
+    name: "{{ mysql_databases }}"
+    state: present
+    login_user: root
+    login_unix_socket: /run/mysqld/mysqld.sock
