@@ -2,4 +2,4 @@
 
 PasswordAuthentication no
 ChallengeResponseAuthentication no
-DebianBannerDebianBanner no
+DebianBanner no
