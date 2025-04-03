@@ -12,6 +12,8 @@
       loop_control:
         loop_var: php_version
       loop: "{{ php_versions }}"
+    - include_role:
+        name: tideways
   vars:
     php_versions:
       - "8.2"

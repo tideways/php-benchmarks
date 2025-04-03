@@ -1,0 +1,19 @@
+---
+- name: Install Tideways GPG key.
+  copy:
+    src: tideways.asc
+    dest: /usr/share/keyrings/tideways.asc
+    owner: root
+    group: root
+    mode: 0644
+- name: Install Tideways repository
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/tideways.asc] https://packages.tideways.com/apt-packages-main any-version main"
+    state: present
+    filename: tideways
+- name: Install Tideways.
+  apt:
+    name:
+      - tideways-php
+      - tideways-daemon
+    state: present
