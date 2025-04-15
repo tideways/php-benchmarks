@@ -20,7 +20,7 @@
       - "8.2"
       - "8.3"
       - "8.4"
-    php_workers: "5"
+    php_workers: "17"
     mysql_databases:
       - laravel12
       - wordpress67
