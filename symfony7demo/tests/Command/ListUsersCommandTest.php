@@ -11,15 +11,14 @@
 
 namespace App\Tests\Command;
 
-use App\Command\ListUsersCommand;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-final class ListUsersCommandTest extends AbstractCommandTest
+final class ListUsersCommandTest extends AbstractCommandTestCase
 {
     /**
-     * @dataProvider maxResultsProvider
-     *
      * This test verifies the amount of data is right according to the given parameter max results.
      */
+    #[DataProvider('maxResultsProvider')]
     public function testListUsers(int $maxResults): void
     {
         $tester = $this->executeCommand(
@@ -30,7 +29,7 @@ final class ListUsersCommandTest extends AbstractCommandTest
         $this->assertSame($emptyDisplayLines + $maxResults, mb_substr_count($tester->getDisplay(), "\n"));
     }
 
-    public function maxResultsProvider(): \Generator
+    public static function maxResultsProvider(): \Generator
     {
         yield [1];
         yield [2];
@@ -50,8 +49,8 @@ final class ListUsersCommandTest extends AbstractCommandTest
         $this->assertEmailCount(1);
     }
 
-    protected function getCommandFqcn(): string
+    protected function getCommandName(): string
     {
-        return ListUsersCommand::class;
+        return 'app:list-users';
     }
 }

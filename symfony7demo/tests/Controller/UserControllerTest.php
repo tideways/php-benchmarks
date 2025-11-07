@@ -13,6 +13,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,9 +34,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class UserControllerTest extends WebTestCase
 {
-    /**
-     * @dataProvider getUrlsForAnonymousUsers
-     */
+    #[DataProvider('getUrlsForAnonymousUsers')]
     public function testAccessDeniedForAnonymousUsers(string $httpMethod, string $url): void
     {
         $client = static::createClient();
@@ -44,11 +43,11 @@ final class UserControllerTest extends WebTestCase
         $this->assertResponseRedirects(
             'http://localhost/en/login',
             Response::HTTP_FOUND,
-            sprintf('The %s secure URL redirects to the login form.', $url)
+            \sprintf('The %s secure URL redirects to the login form.', $url)
         );
     }
 
-    public function getUrlsForAnonymousUsers(): \Generator
+    public static function getUrlsForAnonymousUsers(): \Generator
     {
         yield ['GET', '/en/profile/edit'];
         yield ['GET', '/en/profile/change-password'];
@@ -75,7 +74,6 @@ final class UserControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/en/profile/edit', Response::HTTP_SEE_OTHER);
 
-        /** @var User $user */
         $user = $userRepository->findOneByEmail($newUserEmail);
 
         $this->assertNotNull($user);

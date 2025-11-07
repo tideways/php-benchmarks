@@ -16,10 +16,10 @@ use App\Repository\UserRepository;
 use App\Utils\Validator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -41,7 +41,17 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 #[AsCommand(
     name: 'app:delete-user',
-    description: 'Deletes users from the database'
+    description: 'Deletes users from the database',
+    help: <<<'HELP'
+        The <info>%command.name%</info> command deletes users from the database:
+
+          <info>php %command.full_name%</info> <comment>username</comment>
+
+        If you omit the argument, the command will ask you to
+        provide the missing value:
+
+          <info>php %command.full_name%</info>
+    HELP,
 )]
 final class DeleteUserCommand extends Command
 {
@@ -51,26 +61,9 @@ final class DeleteUserCommand extends Command
         private readonly EntityManagerInterface $entityManager,
         private readonly Validator $validator,
         private readonly UserRepository $users,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->addArgument('username', InputArgument::REQUIRED, 'The username of an existing user')
-            ->setHelp(<<<'HELP'
-                The <info>%command.name%</info> command deletes users from the database:
-
-                  <info>php %command.full_name%</info> <comment>username</comment>
-
-                If you omit the argument, the command will ask you to
-                provide the missing value:
-
-                  <info>php %command.full_name%</info>
-                HELP
-            );
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -105,17 +98,15 @@ final class DeleteUserCommand extends Command
         $input->setArgument('username', $username);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(#[Argument('The username of an existing user')] string $username): int
     {
-        /** @var string|null $username */
-        $username = $input->getArgument('username');
         $username = $this->validator->validateUsername($username);
 
         /** @var User|null $user */
         $user = $this->users->findOneByUsername($username);
 
         if (null === $user) {
-            throw new RuntimeException(sprintf('User with username "%s" not found.', $username));
+            throw new RuntimeException(\sprintf('User with username "%s" not found.', $username));
         }
 
         // After an entity has been removed, its in-memory state is the same
@@ -129,7 +120,7 @@ final class DeleteUserCommand extends Command
         $userUsername = $user->getUsername();
         $userEmail = $user->getEmail();
 
-        $this->io->success(sprintf('User "%s" (ID: %d, email: %s) was successfully deleted.', $userUsername, $userId, $userEmail));
+        $this->io->success(\sprintf('User "%s" (ID: %d, email: %s) was successfully deleted.', $userUsername, $userId, $userEmail));
 
         // Logging is helpful and important to keep a trace of what happened in the software runtime flow.
         // See https://symfony.com/doc/current/logging.html
