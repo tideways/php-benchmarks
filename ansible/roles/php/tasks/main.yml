@@ -7,10 +7,13 @@
     group: root
     mode: 0644
 - name: Install Sury's repository
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ {{ ansible_distribution_release | lower }} main"
+  deb822_repository:
+    name: php_sury
     state: present
-    filename: php_sury
+    uris: https://packages.sury.org/php/
+    suites: "{{ ansible_distribution_release | lower }}"
+    components: main
+    signed_by: "/usr/share/keyrings/deb.sury.org-php.gpg"
 - name: Install php{{ php_version }}
   apt:
     name:
