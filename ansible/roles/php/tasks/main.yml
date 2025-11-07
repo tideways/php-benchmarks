@@ -24,7 +24,6 @@
       - php{{ php_version }}-intl
       - php{{ php_version }}-mbstring
       - php{{ php_version }}-mysql
-      - php{{ php_version }}-opcache
       - php{{ php_version }}-pdo
       - php{{ php_version }}-redis
       - php{{ php_version }}-sqlite3
@@ -32,6 +31,13 @@
       - php{{ php_version }}-zip
     state: present
     update_cache: yes
+- name: Install php{{ php_version }}-opcache
+  apt:
+    name:
+      - php{{ php_version }}-opcache
+    state: present
+    update_cache: yes
+  when: "php_version is version('8.5', '<')"
 - name: Install pool config www.conf.
   template:
     src: www.conf
