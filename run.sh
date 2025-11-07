@@ -3,6 +3,7 @@
 set -ex
 
 for project in symfony7demo laravel12 wordpress68; do
+	systemctl restart php8.5-fpm
 	systemctl restart php8.4-fpm
 	systemctl restart php8.3-fpm
 	systemctl restart php8.2-fpm
@@ -11,11 +12,11 @@ for project in symfony7demo laravel12 wordpress68; do
 	case $project in
 
 	symfony7demo | laravel12)
-		versions="82 83 84"
+		versions="82 83 84 85"
 		;;
 
 	wordpress68)
-		versions="74 82 83 84"
+		versions="74 82 83 84 85"
 		;;
 
 	*)
