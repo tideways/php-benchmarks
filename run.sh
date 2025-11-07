@@ -2,7 +2,7 @@
 
 set -ex
 
-for project in symfony7demo laravel12 wordpress67; do
+for project in symfony7demo laravel12 wordpress68; do
 	systemctl restart php8.4-fpm
 	systemctl restart php8.3-fpm
 	systemctl restart php8.2-fpm
@@ -14,7 +14,7 @@ for project in symfony7demo laravel12 wordpress67; do
 		versions="82 83 84"
 		;;
 
-	wordpress67)
+	wordpress68)
 		versions="74 82 83 84"
 		;;
 
@@ -33,7 +33,7 @@ for project in symfony7demo laravel12 wordpress67; do
 			path="http://${hostname}.localhost/index.php/en/blog/"
 			;;
 
-		laravel12 | wordpress67)
+		laravel12 | wordpress68)
 			path="http://${hostname}.localhost/"
 			;;
 

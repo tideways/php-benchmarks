@@ -23,4 +23,4 @@
     php_workers: "17"
     mysql_databases:
       - laravel12
-      - wordpress67
+      - wordpress68
