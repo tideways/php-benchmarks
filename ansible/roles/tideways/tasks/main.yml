@@ -55,3 +55,4 @@
       - tideways-php
       - tideways-daemon
     state: present
+    update_cache: yes
