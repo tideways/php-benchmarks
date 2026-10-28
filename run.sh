@@ -2,7 +2,7 @@
 
 set -ex
 
-for project in symfony7demo laravel12 wordpress71; do
+for project in symfony8demo laravel12 wordpress71; do
 	systemctl restart php8.5-fpm
 	systemctl restart php8.4-fpm
 	systemctl restart php8.3-fpm
@@ -11,9 +11,14 @@ for project in symfony7demo laravel12 wordpress71; do
 
 	case $project in
 
-	symfony7demo | laravel12)
+	symfony8demo)
+		versions="84 85"
+		;;
+
+	laravel12)
 		versions="82 83 84 85"
 		;;
+
 
 	wordpress71)
 		versions="74 82 83 84 85"
@@ -30,7 +35,7 @@ for project in symfony7demo laravel12 wordpress71; do
 
 		case $project in
 
-		symfony7demo)
+		symfony8demo)
 			path="http://${hostname}.localhost/index.php/en/blog/"
 			;;
 
