@@ -23,5 +23,5 @@
       - "8.5"
     php_workers: "17"
     mysql_databases:
-      - laravel12
+      - laravel13
       - wordpress71
