@@ -19,9 +19,14 @@ final class MyClass
     }
 }
 
-$sum = 0;
-for ($i = 0; $i < 3_000_000; $i++) {
-    $sum += MyClass::new($i)->bar;
+function main(): void
+{
+    $sum = 0;
+    for ($i = 0; $i < 3_000_000; $i++) {
+        $sum += MyClass::new($i)->bar;
+    }
+
+    echo $sum, PHP_EOL;
 }
 
-echo $sum, PHP_EOL;
+main();

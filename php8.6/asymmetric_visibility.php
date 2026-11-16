@@ -30,9 +30,14 @@ final class ProtectedSetChild extends ProtectedSetBase
     }
 }
 
-$private = new PrivateSet();
-$protected = new ProtectedSetChild();
-$private->fill(20_000_000);
-$protected->fill(20_000_000);
+function main(): void
+{
+    $private = new PrivateSet();
+    $protected = new ProtectedSetChild();
+    $private->fill(20_000_000);
+    $protected->fill(20_000_000);
 
-echo $private->value + $protected->value, PHP_EOL;
+    echo $private->value + $protected->value, PHP_EOL;
+}
+
+main();

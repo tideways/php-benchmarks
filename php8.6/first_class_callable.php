@@ -12,9 +12,14 @@ function encodeToString(callable $writerFunc): void
     $writerFunc();
 }
 
-$i = 20_000_000;
-while ($i--) {
-    encodeToString(dummy(...));
+function main(): void
+{
+    $i = 20_000_000;
+    while ($i--) {
+        encodeToString(dummy(...));
+    }
+
+    echo 'done', PHP_EOL;
 }
 
-echo 'done', PHP_EOL;
+main();

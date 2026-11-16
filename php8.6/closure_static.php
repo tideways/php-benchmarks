@@ -9,10 +9,15 @@ function apply(callable $callback, int $value): int
     return $callback($value);
 }
 
-$sum = 0;
-$i = 10_000_000;
-while ($i--) {
-    $sum += apply(static fn (int $x): int => $x + 1, $i);
+function main(): void
+{
+    $sum = 0;
+    $i = 10_000_000;
+    while ($i--) {
+        $sum += apply(static fn (int $x): int => $x + 1, $i);
+    }
+
+    echo $sum, PHP_EOL;
 }
 
-echo $sum, PHP_EOL;
+main();
